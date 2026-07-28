@@ -1,7 +1,7 @@
 class UndergroundSystem {
 public:
     map<int,vector<pair<string,int>>> in;
-    map<int,vector<pair<string,int>>> out;
+    // map<int,vector<pair<string,int>>> out;
     map<pair<string,string>,vector<pair<int,int>>> rel;
     UndergroundSystem() {
         
@@ -14,7 +14,7 @@ public:
     void checkOut(int id, string stationName, int t) {
         auto [st_name,t1]=in[id].back();
         rel[{st_name,stationName}].push_back({t1,t});
-        out[id].push_back({stationName,t});
+        // out[id].push_back({stationName,t});
     }
     
     double getAverageTime(string startStation, string endStation) {
