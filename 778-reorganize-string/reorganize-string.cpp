@@ -1,13 +1,13 @@
 class Solution {
 public:
-    // struct cmp{
-    //     bool operator()(auto &a, auto &b){
-    //         if(a.first==b.first){
-    //             return a.second > b.second;
-    //         }
-    //         return a.first < b.first;
-    //     }
-    // };
+    struct cmp{
+        bool operator()(auto &a, auto &b){
+            if(a.first==b.first){
+                return a.second > b.second;
+            }
+            return a.first < b.first;
+        }
+    };
     string reorganizeString(string s) {
         int n=s.size();
         sort(s.begin(),s.end());
@@ -15,7 +15,7 @@ public:
         if(s[0]==s[ind]) return "";
         unordered_map<char,int> mp;
         for(int i=0;i<n;i++) mp[s[i]]++;
-        priority_queue<pair<int,char>> pq;
+        priority_queue<pair<int,char>,vector<pair<int,char>>,cmp> pq;
         for(auto &[ch,freq]:mp) pq.push({freq,ch});
         string ans="";
         while(pq.size() > 1){
