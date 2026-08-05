@@ -13,8 +13,8 @@ class Solution:
             mid=l+(r-l)//2
             if nums[mid] > nums[mid-1] and nums[mid] > nums[mid+1]:
                 return mid
-            if nums[mid] > nums[mid-1]:
-                l=mid
+            if nums[mid] < nums[mid+1]:
+                l=mid+1
             else:
                 r=mid
         return -1
