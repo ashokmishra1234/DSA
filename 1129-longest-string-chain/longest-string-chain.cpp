@@ -15,6 +15,7 @@ public:
                 str.erase(k,1);
                 
                 for(int j=0;j<i;j++){
+                    if(str.size()-words[j].size() > 1) continue;
                     if(words[j]==str){
                         temp=max(temp,1+len[j]);
                     }
