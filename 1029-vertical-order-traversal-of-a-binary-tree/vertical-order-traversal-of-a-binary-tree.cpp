@@ -9,34 +9,62 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
+
+        // column -> row -> sorted node values
+        map<int, map<int, multiset<int>>> nodes;
+
+        // node, row, column
+        queue<pair<TreeNode*, pair<int, int>>> q;
+
+        q.push({root, {0, 0}});
+
+        while (!q.empty()) {
+
+            auto p = q.front();
+            q.pop();
+
+            TreeNode* node = p.first;
+
+            int row = p.second.first;
+            int col = p.second.second;
+
+            // Store node value at its coordinate
+            nodes[col][row].insert(node->val);
+
+            // Left child
+            if (node->left) {
+                q.push({node->left, {row + 1, col - 1}});
+            }
+
+            // Right child
+            if (node->right) {
+                q.push({node->right, {row + 1, col + 1}});
+            }
+        }
+
         vector<vector<int>> ans;
-        if(!root) return ans;
-        map<int,map<int,vector<int>>> mp;
-        queue<tuple<int,int,TreeNode*>> q;
-        q.push({0,0,root});
-        int level=0;
-        while(!q.empty()){
-            int size=q.size();
-            level=level+1;
-            while(size--){
-                auto [v,l,node]=q.front();
-                q.pop();
-                mp[v][l].push_back(node->val);
-                if(node->left) q.push({v-1,level,node->left});
-                if(node->right) q.push({v+1,level,node->right});
+
+        // Traverse columns from left to right
+        for (auto col : nodes) {
+
+            vector<int> temp;
+
+            // Traverse rows from top to bottom
+            for (auto row : col.second) {
+
+                // Values are already sorted
+                for (auto val : row.second) {
+                    temp.push_back(val);
+                }
             }
+
+            ans.push_back(temp);
         }
-        for(auto [v,temp]:mp){
-            vector<int> res;
-            for(auto [l,vec]:temp){
-                sort(vec.begin(),vec.end());
-                for(auto ele:vec) res.push_back(ele);
-            }
-            ans.push_back(res);
-        }
+
         return ans;
     }
 };
